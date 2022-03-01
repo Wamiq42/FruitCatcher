@@ -60,23 +60,40 @@ public class PlayerController : MonoBehaviour
         direction = new Vector3(horizontalInput, 0f, verticalInput).normalized;
        
 
-        if(direction.magnitude > 0.1)
+        if(direction.magnitude > 0.1 && !Input.GetKey(KeyCode.LeftShift))
         {
-            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
-
-            moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            playerCharacterController.Move(moveDirection.normalized * speed * Time.deltaTime);
+            playerCharacterController.Move(GetDirection(direction).normalized * speed * Time.deltaTime);
             playerAnimator.SetBool("AmyWalkForward", true);
+            playerAnimator.SetBool("isRunning", false);
+        }
+        else if (direction.magnitude > 0.1 && Input.GetKey(KeyCode.LeftShift))
+        {
+            Debug.Log("ShiftPresed");
+            playerCharacterController.Move(GetDirection(direction).normalized * speed * 3.0f * Time.deltaTime);
+            playerAnimator.SetBool("isRunning", true);
+            playerAnimator.SetBool("AmyWalkForward", false);
+
         }
         else
         {
             playerAnimator.SetBool("AmyWalkForward", false);
-           
+            playerAnimator.SetBool("isRunning", false);
+
         }
     }
+
+    Vector3 GetDirection(Vector3 direction)
+    {
+        targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+        smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
+        transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
+
+
+        moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        return moveDirection;
+    }
+  
    
 
     //Code but not using Character Controller;

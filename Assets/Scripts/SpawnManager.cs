@@ -7,7 +7,7 @@ public class SpawnManager : MonoBehaviour
     private float rangeX = 16;
     private int indexNumber;
     private float startTime = 1;
-    private float intervalTime = 3;
+    private float intervalTime = 2.5f;
     private Vector3 randomPosition;
     private GameObject tempGameObject;
 
@@ -24,7 +24,7 @@ public class SpawnManager : MonoBehaviour
         randomPosition = new Vector3(RandomPosition(), 0.8f, RandomPosition());
         indexNumber = RandomIndex();
         tempGameObject = Instantiate(fruitsPrefab[indexNumber], randomPosition, fruitsPrefab[indexNumber].transform.rotation);
-        Destroy(tempGameObject, 5.0f);
+        Destroy(tempGameObject, 10.0f);
     }
 
     int RandomIndex()
