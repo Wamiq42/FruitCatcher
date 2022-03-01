@@ -16,6 +16,7 @@ public class Fruits : MonoBehaviour
     public void setScore(int score)
     {
         scoreCount = score;
+        Debug.Log(scoreCount);
     }
     public int getScore()
     {

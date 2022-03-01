@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 direction;
     private Vector3 moveDirection;
     private float targetAngle;
-    private float angle;
+    private float smoothAngle;
     private float smoothTime = 0.1f;
     private float currentVelocity;
     private int score;
@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Collided with Fruits");
             other.GetComponent<Fruits>().fruitScore();
-            gameManager.setScore(other.GetComponent<Fruits>().getScore());
+            gameManager.setScore(gameManager.getScore() + other.GetComponent<Fruits>().getScore());
             Destroy(other.gameObject);
         }
         
@@ -63,8 +63,8 @@ public class PlayerController : MonoBehaviour
         if(direction.magnitude > 0.1)
         {
             targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
-            angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
-            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+            smoothAngle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref currentVelocity, smoothTime);
+            transform.rotation = Quaternion.Euler(0f, smoothAngle, 0f);
 
 
             moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;

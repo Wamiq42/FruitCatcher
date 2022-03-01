@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Orange : Fruits
+public class Peach : Fruits
 {
     private int score = 25;
     public override void fruitScore()
